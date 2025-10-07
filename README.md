@@ -1,43 +1,74 @@
 # PokeApp
 
-Este é um aplicativo Android simples desenvolvido em Java usando Android Studio. Ele consome a PokéAPI
- para listar Pokémon com base em seu tipo (como "fire", "water", "grass", etc.).
+Este é um aplicativo Android simples desenvolvido em Java usando Android Studio. Ele consome a PokéAPI para listar Pokémon com base em seu tipo (como "fire", "water", "grass", etc.).
 
 ## Tecnologias e Bibliotecas
 
- - Java
+- Java
+- Android Studio
+- Retrofit
+- Gson
+- RecyclerView
+- Intent
+- SharedPreferences
 
- - Android Studio
+## API - PokeApi
 
- - Retrofit
+Essa API é vital para o app, utilizada em todas as funcionalidades, ao fazer a pesquisa aos pokemon pelos tipos, para buscar os dados do pokemon, para exibir a imagem, entre outros usos.
 
- - GSON
+## ⚙️ Como funciona
 
- - RecyclerView
+Busca de Pokémon por tipo
 
- - Intent
-
-# Como funciona
-
-O usuário digita o tipo do Pokémon no campo de texto (por exemplo: fire).
+O usuário digita o tipo do Pokémon no campo de texto (por exemplo: fire, water).
 
 Ao clicar no botão de busca, uma requisição é feita à PokéAPI.
 
 Os Pokémon retornados são exibidos em um RecyclerView.
 
-Ao selecionar um Pokémon, é aberta uma nova Activity com:
+Detalhes de um Pokémon
 
- - Nome do Pokémon.
+Ao clicar em um Pokémon da lista, uma nova Activity é aberta exibindo:
 
- - Botão com um Link para mais informações via API (abrindo no navegador).
+- Nome
+- Foto
+- ID
+- Altura
+- Peso
+- Botão com link para mais informações via PokéAPI (abre no navegador)
+- Ícone de coração indicando se ele está ou não nos favoritos:
+ - Coração vermelho: Pokémon já está nos favoritos
+ - Coração preto: Pokémon ainda não está nos favoritos
 
-## Como rodar
+Esses dados são passados entre as telas usando Intent.
+
+## Favoritar um Pokémon
+
+Ao clicar no coração, o Pokémon é adicionado aos favoritos.
+
+Os dados do Pokémon são convertidos em JSON usando Gson.
+
+Esses dados são armazenados em um arquivo local chamado favorites_pokemons.xml.
+
+## Lista de Favoritos
+
+Na tela principal, há um botão em formato de coração.
+
+Ao clicar nele, o app:
+
+- Lê o arquivo favorites_pokemons.xml
+- Percorre todos os Pokémon favoritados
+- Exibe essa lista em um RecyclerView
+
+## ▶️ Como rodar
 
 Clone o repositório:
-
+```
 git clone https://github.com/seu-usuario/pokedex-por-tipo.git
+```
 
+Abra o projeto no Android Studio.
 
-Abra no Android Studio.
+Conecte um dispositivo físico ou inicie um emulador.
 
-Execute em um emulador ou dispositivo físico.
+Execute o app.
