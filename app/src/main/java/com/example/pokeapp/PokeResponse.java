@@ -1,13 +1,30 @@
 package com.example.pokeapp;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PokeResponse {
-    private List<PokeType> pokemon;
+import retrofit2.Retrofit;
 
-    public List<PokeType> getPokemon() {
-        return pokemon;
+public class PokeResponse {
+    private PokeSprite sprites;
+    private String weight;
+    private String height;
+    private String id;
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+
+    public PokeSprite getSprites() {
+        return sprites;
     }
 
 }

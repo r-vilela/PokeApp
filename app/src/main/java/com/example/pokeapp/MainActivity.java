@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<PokeInfo> pokes;
     private Adapter adapter;
     private Retrofit retrofit;
+    private ImageButton favBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +53,13 @@ public class MainActivity extends AppCompatActivity {
         });
         this.edtTipo = findViewById(R.id.edtTipo);
         this.btnPesquisar = findViewById(R.id.btnPesquisar);
+        this.favBtn = findViewById(R.id.favBtn);
         this.pokes = new ArrayList<>();
         this.adapter = new Adapter(this.pokes);
 
         this.recyclerView = findViewById(R.id.recyclerView);
-        //RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
@@ -83,12 +86,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        favBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity3.class);
+                startActivity(intent);
+            }
+        });
+
         adapter.setOnItemClickListener(new Adapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                 intent.putExtra("name", pokes.get(position).getName());
                 intent.putExtra("url", pokes.get(position).getUrl());
+                intent.putExtra("id", pokes.get(position).getId());
+                intent.putExtra("weight", pokes.get(position).getWeight());
+                intent.putExtra("height", pokes.get(position).getHeight());
+                intent.putExtra("image", pokes.get(position).getImg());
                 startActivity(intent);
                 // Toast.makeText(MainActivity.this, pokes.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
@@ -105,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void buscarTipoPokemon(String type){
         PokeApi pokeApi = retrofit.create(PokeApi.class);
-        Call<PokeResponse> call = pokeApi.buscarTipoPokemon(type);
-        call.enqueue(new Callback<PokeResponse>() {
+        Call<TypeResponse> call = pokeApi.buscarTipoPokemon(type);
+        call.enqueue(new Callback<TypeResponse>() {
             @Override
-            public void onResponse(Call<PokeResponse> call, Response<PokeResponse> response) {
+            public void onResponse(Call<TypeResponse> call, Response<TypeResponse> response) {
                 if(response.isSuccessful()){
                     List<PokeType> resultado = response.body().getPokemon();
                     pokes.clear();
@@ -123,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<PokeResponse> call, Throwable t) {
+            public void onFailure(Call<TypeResponse> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "Erro ao buscar tipo de pokemon", Toast.LENGTH_SHORT).show();
             }
         });
